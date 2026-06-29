@@ -23,15 +23,25 @@ export function Contact() {
 
     setIsSubmitting(true);
     
-    // Mimic real submit delays
     try {
-      // NOTE: Formspree endpoint can be injected here
-      // For instance: fetch('https://formspree.io/f/YOUR_FORM_ID', { method: 'POST', body: JSON.stringify(formState) })
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setIsSubmitted(true);
-      setFormState({ name: '', email: '', message: '' });
+      const response = await fetch('https://formspree.io/f/xnjkznzk', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formState)
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormState({ name: '', email: '', message: '' });
+      } else {
+        alert("Something went wrong with form submission. Please email me directly at hassanarif4625@gmail.com.");
+      }
     } catch (err) {
       console.error("Form submission failed", err);
+      alert("Network error. Please try again or email me directly at hassanarif4625@gmail.com.");
     } finally {
       setIsSubmitting(false);
     }
@@ -246,7 +256,7 @@ export function Contact() {
 
                     {/* Formspree instructions inline tip */}
                     <p className="text-[10px] font-mono text-gray-500 leading-relaxed">
-                      💡 Note: This form is for UI presentation. For direct contact, email me at <strong>hassanarif4625@gmail.com</strong>.
+                      💡 Note: This form is connected directly to my inbox. I will get back to you as soon as possible.
                     </p>
 
                     {/* Submit Button */}
